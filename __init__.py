@@ -27,6 +27,7 @@ if "bpy" in locals():
     imp.reload(ui_preset_styles)
     imp.reload(utils)
     imp.reload(automatic1111_api)
+    imp.reload(shark_api)
     imp.reload(stability_api)
     imp.reload(stablehorde_api)
 else:
@@ -48,6 +49,7 @@ else:
     )
     from .sd_backends import (
         automatic1111_api,
+        shark_api,
         stability_api,
         stablehorde_api,
     )

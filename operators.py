@@ -974,7 +974,7 @@ class AIR_OT_automatic1111_load_controlnet_models_and_modules(bpy.types.Operator
     "Load the available ControlNet models and modules (preprocessors) from Automatic1111"
     bl_idname = "ai_render.automatic1111_load_controlnet_models_and_modules"
     bl_label = "Load ControlNet Models and Modules"
-
+    
     def execute(self, context):
         # load the models and modules from the Automatic1111 API
         automatic1111_api.load_controlnet_models(context) and automatic1111_api.load_controlnet_modules(context)
@@ -983,6 +983,38 @@ class AIR_OT_automatic1111_load_controlnet_models_and_modules(bpy.types.Operator
         automatic1111_api.choose_controlnet_defaults(context)
         return {'FINISHED'}
 
+class AIR_OT_shark_load_controlnet_models(bpy.types.Operator):
+    "Load the available ControlNet models from shark"
+    bl_idname = "ai_render.shark_load_controlnet_models"
+    bl_label = "Load ControlNet Models"
+
+    def execute(self, context):
+        shark_api.load_controlnet_models(context)
+        return {'FINISHED'}
+
+
+class AIR_OT_shark_load_controlnet_modules(bpy.types.Operator):
+    "Load the available ControlNet modules (preprocessors) from shark."
+    bl_idname = "ai_render.shark_load_controlnet_modules"
+    bl_label = "Load ControlNet Modules"
+
+    def execute(self, context):
+        shark_api.load_controlnet_modules(context)
+        return {'FINISHED'}
+
+
+class AIR_OT_shark_load_controlnet_models_and_modules(bpy.types.Operator):
+    "Load the available ControlNet models and modules (preprocessors) from shark."
+    bl_idname = "ai_render.shark_load_controlnet_models_and_modules"
+    bl_label = "Load ControlNet Models and Modules"
+
+    def execute(self, context):
+        # load the models and modules from the shark API
+        shark_api.load_controlnet_models(context) and shark_api.load_controlnet_modules(context)
+
+        # set the default values for the ControlNet model and module
+        shark_api.choose_controlnet_defaults(context)
+        return {'FINISHED'}
 
 
 classes = [
@@ -1001,6 +1033,9 @@ classes = [
     AIR_OT_automatic1111_load_controlnet_models,
     AIR_OT_automatic1111_load_controlnet_modules,
     AIR_OT_automatic1111_load_controlnet_models_and_modules,
+    AIR_OT_shark_load_controlnet_models,
+    AIR_OT_shark_load_controlnet_modules,
+    AIR_OT_shark_load_controlnet_models_and_modules,
 ]
 
 

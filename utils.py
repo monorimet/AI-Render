@@ -27,6 +27,7 @@ from .sd_backends import (
     automatic1111_api,
     stability_api,
     stablehorde_api,
+    shark_api,
 )
 
 min_dimension_size = 128
@@ -337,6 +338,8 @@ def get_active_backend():
         return stablehorde_api
     elif sd_backend() == "automatic1111":
         return automatic1111_api
+    elif sd_backend() == "shark":
+        return shark_api
 
 
 def is_installation_valid():

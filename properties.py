@@ -27,6 +27,8 @@ def get_available_controlnet_models(self, context):
 def get_available_controlnet_modules(self, context):
     if utils.sd_backend() == "automatic1111":
         return automatic1111_api.get_available_controlnet_modules(context)
+    if utils.sd_backend() == "shark":
+        return shark_api.get_available_controlnet_modules(context)
     else:
         return[]
 

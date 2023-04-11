@@ -291,7 +291,7 @@ class AIR_PT_controlnet(bpy.types.Panel):
 
     @classmethod
     def poll(cls, context):
-        return utils.is_installation_valid() and context.scene.air_props.is_enabled and utils.sd_backend(context) == "automatic1111"
+        return utils.is_installation_valid() and context.scene.air_props.is_enabled and (utils.sd_backend(context) == "automatic1111" or utils.sd_backend(context) == "shark")
 
     def draw(self, context):
         layout = self.layout
@@ -308,7 +308,7 @@ class AIR_PT_controlnet(bpy.types.Panel):
             split = row.split(align=True)
             split.prop(props, "controlnet_close_help", text="", icon="X", emboss=False)
 
-            utils.label_multiline(box, text="ControlNet is an extension for Automatic1111 that provides a spectacular ability to match scene details - layout, objects, poses - while recreating the scene in Stable Diffusion. It can also create much more stable animations than standard Stable Diffusion.", width=width_guess)
+            utils.label_multiline(box, text="ControlNet is an extension for Automatic1111/SHARK that provides a spectacular ability to match scene details - layout, objects, poses - while recreating the scene in Stable Diffusion. It can also create much more stable animations than standard Stable Diffusion.", width=width_guess)
 
             row = box.row()
             row.operator("wm.url_open", text="Learn More", icon="URL").url = config.HELP_WITH_CONTROLNET_URL
@@ -322,7 +322,10 @@ class AIR_PT_controlnet(bpy.types.Panel):
         # ControlNet Load Models and Modules
         if not props.controlnet_available_models:
             row = layout.row()
-            row.operator(operators.AIR_OT_automatic1111_load_controlnet_models_and_modules.bl_idname, text="Load Models from Automatic1111", icon="FILE_REFRESH")
+            if utils.sd_backend(context) == "automatic1111":
+                row.operator(operators.AIR_OT_automatic1111_load_controlnet_models_and_modules.bl_idname, text="Load Models from Automatic1111", icon="FILE_REFRESH")
+            elif utils.sd_backend(context) == "shark":
+                row.operator(operators.AIR_OT_shark_load_controlnet_models_and_modules.bl_idname, text="Load Models from Automatic1111", icon="FILE_REFRESH")
         else:
             # Heads up box
             if props.controlnet_is_enabled:
@@ -335,14 +338,20 @@ class AIR_PT_controlnet(bpy.types.Panel):
             row.prop(props, 'controlnet_module', text="Preprocessor")
 
             split = row.split(align=True)
-            split.operator(operators.AIR_OT_automatic1111_load_controlnet_modules.bl_idname, text="", icon="FILE_REFRESH")
+            if utils.sd_backend(context) == "automatic1111":
+                split.operator(operators.AIR_OT_automatic1111_load_controlnet_modules.bl_idname, text="", icon="FILE_REFRESH")
+            elif utils.sd_backend(context) == "shark":
+                split.operator(operators.AIR_OT_shark_load_controlnet_modules.bl_idname, text="", icon="FILE_REFRESH")
 
             # ControlNet Model
             row = layout.row()
             row.prop(props, 'controlnet_model', text="Model")
 
             split = row.split(align=True)
-            split.operator(operators.AIR_OT_automatic1111_load_controlnet_models.bl_idname, text="", icon="FILE_REFRESH")
+            if utils.sd_backend(context) == "automatic1111":
+                split.operator(operators.AIR_OT_automatic1111_load_controlnet_models.bl_idname, text="", icon="FILE_REFRESH")
+            elif utils.sd_backend(context) == "shark":
+                split.operator(operators.AIR_OT_shark_load_controlnet_models.bl_idname, text="", icon="FILE_REFRESH")
 
 
 
